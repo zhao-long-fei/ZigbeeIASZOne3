@@ -40,6 +40,7 @@ network-steering \
 nvm3/EFR32 \
 nvm3 \
 poll-control-server \
+reporting \
 scan-dispatch \
 serial/EFR32 \
 serial \

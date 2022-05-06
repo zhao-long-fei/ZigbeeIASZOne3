@@ -25,13 +25,13 @@
 #include "gpiointerrupt.h"
 #include "em_iadc.h"
 #include "app/framework/plugin/ias-zone-server/ias-zone-server.h"
+#include "function_control.h"
 #include EMBER_AF_API_GENERIC_INTERRUPT_CONTROL
 
-#define GPIO_INTERRUPT_PORT gpioPortB
-#define GPIO_INTERRUPT_PIN  (1U)
+
 EmberEventControl customInterruptEventControl;
 EmberEventControl IADCCollectEventControl;
-EmberEventControl SentZoneStatusEventControl;
+
 
 
 #define RISING_EDGE_STATUS      0
@@ -50,7 +50,6 @@ EmberEventControl SentZoneStatusEventControl;
 static volatile IADC_Result_t sample;
 static volatile double singleResult;
 
-uint16_t ZoneStatus;
 uint8_t  mode;
 uint8_t  EdgeTrigger;
 bool HavePeople;
@@ -96,6 +95,10 @@ void emberAfPluginNetworkSteeringCompleteCallback(EmberStatus status,
 {
   emberAfCorePrintln("%p network %p: 0x%X", "Join", "complete", status);
 }
+void emberAfMainTickCallback(void)
+{
+  Serial_Recv_Data();
+}
 
 
 /** @brief Ok To Sleep
@@ -109,7 +112,17 @@ void emberAfPluginNetworkSteeringCompleteCallback(EmberStatus status,
  */
 bool emberAfPluginIdleSleepOkToSleepCallback(uint32_t durationMs)
 {
+  /*关闭看门狗，去睡觉*/
   halInternalDisableWatchDog(MICRO_DISABLE_WATCH_DOG_KEY);
+
+  /*开启串口中断*/
+  GPIO_ExtIntConfig(gpioPortB,          //GPIO_Port_TypeDef port
+                         1,             //unsigned int pin
+                         0,             //unsigned int intNo
+                         true,         //bool risingEdge
+                         true,          //bool fallingEdge
+                         true);
+  //NVIC_EnableIRQ(USART1_RX_IRQn);
   return true;
 }
 
@@ -123,7 +136,18 @@ bool emberAfPluginIdleSleepOkToSleepCallback(uint32_t durationMs)
  */
 void emberAfPluginIdleSleepWakeUpCallback(uint32_t durationMs)
 {
+  /**/
+  /*醒来，开启看门狗*/
   halInternalEnableWatchDog();
+
+  /*关闭串口中断，进行协议交换*/
+  GPIO_ExtIntConfig(gpioPortB,          //GPIO_Port_TypeDef port
+                         1,             //unsigned int pin
+                         0,             //unsigned int intNo
+                         true,         //bool risingEdge
+                         true,          //bool fallingEdge
+                         false);
+  //NVIC_DisableIRQ(USART1_RX_IRQn);
 
 }
 /** @brief Called whenever the GPIO sensor detects a change in state.
@@ -149,11 +173,13 @@ void emberAfPluginGpioSensorStateChangedCallback(uint8_t newSensorState)
                              ZCL_ZONE_STATE_ATTRIBUTE_ID,
                              (uint8_t*)&state,
                              8);
+#if 0
   for (int i = 0; i < 8; i++) {
     if (ieeeAddress[i] != 0) {
         emberAfCorePrintln("addr%d=%4x",i,ieeeAddress[i]);
     }
   }
+#endif
   emberAfCorePrintln("state=%x ",state);
   emberAfReadServerAttribute(1,
                              ZCL_IAS_ZONE_CLUSTER_ID,
@@ -215,12 +241,23 @@ void SentZoneStatusEventHandler(void)
 void emberAfMainInitCallback(void)
 {
 
-  GPIO_PinModeSet(GPIO_INTERRUPT_PORT, GPIO_INTERRUPT_PIN,gpioModeInputPull,1); //1:DOUT
+  GPIO_PinModeSet(GPIO_INTERRUPT_PORT, GPIO_INTERRUPT_PIN,gpioModeInputPull,1); //1:DOUT  1:默认高电平  0：默认低电平
+  GPIO_PinModeSet(GPIO_OUT_PORT,GPIO_OUT_PIN,gpioModePushPull,1);               //叫醒设备 20ms
+  /*设置串口中断*/
+  GPIO_PinModeSet(gpioPortB, 1,gpioModeInputPull,0);
+  GPIO_ExtIntConfig(gpioPortB,          //GPIO_Port_TypeDef port
+                         1,             //unsigned int pin
+                         0,             //unsigned int intNo
+                         true,          //bool risingEdge
+                         true,          //bool fallingEdge
+                         true);         //bool enable
   GPIOINT_Init();
   CMU_ClockEnable(cmuClock_GPIO, true);
   IadcInitialize();
   emberEventControlSetDelayMS(IADCCollectEventControl,5000);
   HavePeople=false;   //上电初始化为无人
+
+  data_initialize();  //串口接收相关数据初始化
 }
 
 void IadcInitialize(void)
@@ -303,7 +340,7 @@ void IADCCollectEventHandler(void)
 {
   emberEventControlSetInactive(IADCCollectEventControl);
   IADC_command(IADC0, iadcCmdStartSingle);
-  emberEventControlSetDelayMS(IADCCollectEventControl,5000);
+  //emberEventControlSetDelayMS(IADCCollectEventControl,50000); //先取消电量的周期性上报。
 }
 
 

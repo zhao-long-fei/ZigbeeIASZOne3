@@ -26704,19 +26704,5 @@ void emberAfPluginCountersRolloverCallback(EmberCounterType type);
 /** @} END Counters Plugin Callbacks */
 
 
-/** @name Battery Monitor Plugin Callbacks */
-// @{
-
-/** @brief Data Ready
- *
- * This function is called whenever the battery monitor has generated a new
- * valid battery level.
- *
- * @param batteryVoltageMilliV The battery voltage, in milli Volts  Ver.: always
- */
-void emberAfPluginBatteryMonitorDataReadyCallback(uint16_t batteryVoltageMilliV);
-/** @} END Battery Monitor Plugin Callbacks */
-
-
 /** @} END addtogroup */
 #endif // SILABS_EMBER_AF_CALLBACK_PROTOTYPES

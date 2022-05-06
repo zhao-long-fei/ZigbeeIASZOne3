@@ -498,6 +498,110 @@ static EmberCommandEntry emberCommandPluginCountersTable[] = {
   emberCommandEntryActionWithDetails("simple-print", emberAfPluginCountersSimplePrintCommand, "", "Print all counter values.", NULL),
   emberCommandEntryTerminator(),
 };
+void emberAfPluginEndDeviceSupportForceShortPollCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginEndDeviceSupportForceShortPollCommandArguments[] = {
+  "The value indicating whether the device should short poll.",
+  NULL
+};
+#endif
+
+
+void emberAfPluginEndDeviceSupportPollCompletedCallbackCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginEndDeviceSupportPollCompletedCallbackCommandArguments[] = {
+  "The value indicating whether the device's poll completed callback func ...",
+  NULL
+};
+#endif
+
+
+void emberAfPluginEndDeviceSupportStatusCommand(void);
+static EmberCommandEntry emberCommandPluginEndDeviceSupportTable[] = {
+  emberCommandEntryActionWithDetails("force-short-poll", emberAfPluginEndDeviceSupportForceShortPollCommand, "u", "Sets whether the CLI forces the device to short poll.", pluginEndDeviceSupportForceShortPollCommandArguments),
+  emberCommandEntryActionWithDetails("poll-completed-callback", emberAfPluginEndDeviceSupportPollCompletedCallbackCommand, "u", "Sets whether the device's poll completed callback function is enabled.", pluginEndDeviceSupportPollCompletedCallbackCommandArguments),
+  emberCommandEntryActionWithDetails("status", emberAfPluginEndDeviceSupportStatusCommand, "", "Display the status of the End Device's polling.", NULL),
+  emberCommandEntryTerminator(),
+};
+void emberAfPluginIasZoneServerChangeBackoffConfiguration(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginIasZoneServerChangeBackoffConfigCommandArguments[] = {
+  "First backoff time in seconds.",
+  "Backoff increase common ratio.",
+  "Maximum backoff time in seconds.",
+  "Unlimited retires.",
+  "Maximum retry attempts.",
+  NULL
+};
+#endif
+
+
+void emberAfPluginIasZoneServerChangeStatusCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginIasZoneServerChangeStatusCommandArguments[] = {
+  "The new status to be written",
+  "The amount time that has passed since the last update occurred (second ...",
+  "The endpoint whose zone status attribute is to be updated",
+  NULL
+};
+#endif
+
+
+void emberAfPluginIasZoneServerInfoCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginIasZoneServerInfoCommandArguments[] = {
+  "The endpoint whose IAS Zone Cluster information is to be printed",
+  NULL
+};
+#endif
+
+
+void emberAfPluginIasZoneServerCliPrintQueue(void);
+void emberAfPluginIasZoneServerCliPrintQueueConfig(void);
+void emberAfPluginIasZoneServerSetEnrollmentMethodCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginIasZoneServerSetEnrollmentModeCommandArguments[] = {
+  "The endpoint whose enrollment mode is to be updated",
+  "The new enrollment mode",
+  NULL
+};
+#endif
+
+
+static EmberCommandEntry emberCommandPluginIasZoneServerTable[] = {
+  emberCommandEntryActionWithDetails("change-backoff-config", emberAfPluginIasZoneServerChangeBackoffConfiguration, "uuwuv", "Update the IAS Zone server's backoff configuration parameters.", pluginIasZoneServerChangeBackoffConfigCommandArguments),
+  emberCommandEntryActionWithDetails("changeStatus", emberAfPluginIasZoneServerChangeStatusCommand, "vuu", "Update the zone status attribute of a given endpoint's IAS Zone cluste ...", pluginIasZoneServerChangeStatusCommandArguments),
+  emberCommandEntryActionWithDetails("info", emberAfPluginIasZoneServerInfoCommand, "u", "Print current value of the following cluster attributes: zone type, zo ...", pluginIasZoneServerInfoCommandArguments),
+  emberCommandEntryActionWithDetails("print-queue", emberAfPluginIasZoneServerCliPrintQueue, "", "Prints information on the status queue.", NULL),
+  emberCommandEntryActionWithDetails("print-queue-config", emberAfPluginIasZoneServerCliPrintQueueConfig, "", "Prints the status queue config.", NULL),
+  emberCommandEntryActionWithDetails("set-enrollment-mode", emberAfPluginIasZoneServerSetEnrollmentMethodCommand, "uu", "Update the IAS Zone server's enrollment method to the specified value", pluginIasZoneServerSetEnrollmentModeCommandArguments),
+  emberCommandEntryTerminator(),
+};
+void emberAfPluginIdleSleepAwakeWhenNotJoinedCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginIdleSleepAwakeWhenNotJoinedCommandArguments[] = {
+  "The value indicating whether the device should stay awake when not joi ...",
+  NULL
+};
+#endif
+
+
+void emberAfPluginIdleSleepStayAwakeCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginIdleSleepForceAwakeCommandArguments[] = {
+  "The value indicating whether the device should stay awake.",
+  NULL
+};
+#endif
+
+
+void emberAfPluginIdleSleepStatusCommand(void);
+static EmberCommandEntry emberCommandPluginIdleSleepTable[] = {
+  emberCommandEntryActionWithDetails("awake-when-not-joined", emberAfPluginIdleSleepAwakeWhenNotJoinedCommand, "u", "Sets whether the device stays awake when not joined to a ZigBee networ ...", pluginIdleSleepAwakeWhenNotJoinedCommandArguments),
+  emberCommandEntryActionWithDetails("force-awake", emberAfPluginIdleSleepStayAwakeCommand, "u", "Sets whether the device is forced to stay awake.", pluginIdleSleepForceAwakeCommandArguments),
+  emberCommandEntryActionWithDetails("status", emberAfPluginIdleSleepStatusCommand, "", "Display the status of the sleeping behavior.", NULL),
+  emberCommandEntryTerminator(),
+};
 void emberAfPluginNetworkSteeringChannelAddOrSubtractCommand(void);
 #if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
 static const char * const pluginNetworkSteeringMaskAddCommandArguments[] = {
@@ -578,6 +682,9 @@ static EmberCommandEntry emberCommandPluginUpdateTcLinkKeyTable[] = {
 static EmberCommandEntry emberCommandPluginTable[] = {
   emberCommandEntrySubMenu("counter", emberCommandPluginCounterTable, ""),
   emberCommandEntrySubMenu("counters", emberCommandPluginCountersTable, ""),
+  emberCommandEntrySubMenu("end-device-support", emberCommandPluginEndDeviceSupportTable, ""),
+  emberCommandEntrySubMenu("ias-zone-server", emberCommandPluginIasZoneServerTable, ""),
+  emberCommandEntrySubMenu("idle-sleep", emberCommandPluginIdleSleepTable, ""),
   emberCommandEntrySubMenu("network-steering", emberCommandPluginNetworkSteeringTable, ""),
   emberCommandEntrySubMenu("update-tc-link-key", emberCommandPluginUpdateTcLinkKeyTable, ""),
   emberCommandEntryTerminator(),
@@ -698,6 +805,25 @@ static const char * const writeCommandArguments[] = {
 #endif
 
 
+static void zclBasicGlsrCommand(void) {
+  zclSimpleServerCommand( ZCL_BASIC_CLUSTER_ID,
+                          ZCL_GET_LOCALES_SUPPORTED_RESPONSE_COMMAND_ID);
+}
+
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const zclBasicGlsrCommandArguments[] = {
+  "discovery complete",
+  "locale supported",
+  "",
+  NULL
+};
+#endif
+
+
+static EmberCommandEntry emberCommandZclBasicTable[] = {
+  emberCommandEntryActionWithDetails("glsr", zclBasicGlsrCommand, "ub*", "The locales supported response command is sent in response to a get lo ...", zclBasicGlsrCommandArguments),
+  emberCommandEntryTerminator(),
+};
 void zclGlobalDirectionCommand(void);
 #if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
 static const char * const zclGlobalDirectionCommandArguments[] = {
@@ -849,6 +975,114 @@ static EmberCommandEntry emberCommandZclGlobalTable[] = {
   emberCommandEntryActionWithDetails("write", zclGlobalWriteCommand, "vvwb", "Creates a global write command message to write to the cluster and att ...", zclGlobalWriteCommandArguments),
   emberCommandEntryTerminator(),
 };
+static void zclIasZoneEnrollCommand(void) {
+  zclSimpleServerCommand( ZCL_IAS_ZONE_CLUSTER_ID,
+                          ZCL_ZONE_ENROLL_REQUEST_COMMAND_ID);
+}
+
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const zclIasZoneEnrollCommandArguments[] = {
+  "zone type",
+  "manufacturer code",
+  NULL
+};
+#endif
+
+
+static void zclIasZoneScCommand(void) {
+  zclSimpleServerCommand( ZCL_IAS_ZONE_CLUSTER_ID,
+                          ZCL_ZONE_STATUS_CHANGE_NOTIFICATION_COMMAND_ID);
+}
+
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const zclIasZoneScCommandArguments[] = {
+  "zone status",
+  "extended status",
+  "zone id",
+  "delay",
+  NULL
+};
+#endif
+
+
+static EmberCommandEntry emberCommandZclIasZoneTable[] = {
+  emberCommandEntryActionWithDetails("enroll", zclIasZoneEnrollCommand, "vv", "Command description for zoneEnrollRequest", zclIasZoneEnrollCommandArguments),
+  emberCommandEntryActionWithDetails("sc", zclIasZoneScCommand, "vuuv", "Command description for zoneStatusChangeNotification", zclIasZoneScCommandArguments),
+  emberCommandEntryTerminator(),
+};
+static void zclIdentifyEzModeCommand(void) {
+  zclSimpleClientCommand( ZCL_IDENTIFY_CLUSTER_ID,
+                          ZCL_E_Z_MODE_INVOKE_COMMAND_ID);
+}
+
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const zclIdentifyEzModeCommandArguments[] = {
+  "action",
+  NULL
+};
+#endif
+
+
+static void zclIdentifyIdCommand(void) {
+  zclSimpleClientCommand( ZCL_IDENTIFY_CLUSTER_ID,
+                          ZCL_IDENTIFY_COMMAND_ID);
+}
+
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const zclIdentifyIdCommandArguments[] = {
+  "identify time",
+  NULL
+};
+#endif
+
+
+void zclIdentifyOnOffCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const zclIdentifyOffCommandArguments[] = {
+  "The endpoint on which to stop identifying",
+  NULL
+};
+#endif
+
+
+void zclIdentifyOnOffCommand(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const zclIdentifyOnCommandArguments[] = {
+  "The endpoint on the device which should begin identifying",
+  "The number of seconds to spend identifying",
+  NULL
+};
+#endif
+
+
+static void zclIdentifyQueryCommand(void) {
+  zclSimpleClientCommand( ZCL_IDENTIFY_CLUSTER_ID,
+                          ZCL_IDENTIFY_QUERY_COMMAND_ID);
+}
+
+static void zclIdentifyTriggerCommand(void) {
+  zclSimpleClientCommand( ZCL_IDENTIFY_CLUSTER_ID,
+                          ZCL_TRIGGER_EFFECT_COMMAND_ID);
+}
+
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const zclIdentifyTriggerCommandArguments[] = {
+  "effect id",
+  "effect variant",
+  NULL
+};
+#endif
+
+
+static EmberCommandEntry emberCommandZclIdentifyTable[] = {
+  emberCommandEntryActionWithDetails("ez-mode", zclIdentifyEzModeCommand, "u", "Invoke EZMode on an Identify Server", zclIdentifyEzModeCommandArguments),
+  emberCommandEntryActionWithDetails("id", zclIdentifyIdCommand, "v", "Command description for Identify", zclIdentifyIdCommandArguments),
+  emberCommandEntryActionWithDetails("off", zclIdentifyOnOffCommand, "u", "Writes the IdentifyTime attribute", zclIdentifyOffCommandArguments),
+  emberCommandEntryActionWithDetails("on", zclIdentifyOnOffCommand, "uv", "Writes the IdentifyTime attribute", zclIdentifyOnCommandArguments),
+  emberCommandEntryActionWithDetails("query", zclIdentifyQueryCommand, "", "Command description for IdentifyQuery", NULL),
+  emberCommandEntryActionWithDetails("trigger", zclIdentifyTriggerCommand, "uu", "Command description for TriggerEffect", zclIdentifyTriggerCommandArguments),
+  emberCommandEntryTerminator(),
+};
 void zclMfgCodeCommand(void);
 #if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
 static const char * const zclMfgCodeCommandArguments[] = {
@@ -897,7 +1131,10 @@ static const char * const zclXDefaultRespCommandArguments[] = {
 
 
 static EmberCommandEntry emberCommandZclTable[] = {
+  emberCommandEntrySubMenu("basic", emberCommandZclBasicTable, ""),
   emberCommandEntrySubMenu("global", emberCommandZclGlobalTable, ""),
+  emberCommandEntrySubMenu("ias-zone", emberCommandZclIasZoneTable, ""),
+  emberCommandEntrySubMenu("identify", emberCommandZclIdentifyTable, ""),
   emberCommandEntryActionWithDetails("mfg-code", zclMfgCodeCommand, "v", "Sets the two byte manufacturer specific identifier to use for the next ...", zclMfgCodeCommandArguments),
   emberCommandEntrySubMenu("test", emberCommandZclTestTable, ""),
   emberCommandEntryActionWithDetails("time", zclTimeCommand, "w", "Cli command to call emberAfSetTime function documented in af.h", zclTimeCommandArguments),

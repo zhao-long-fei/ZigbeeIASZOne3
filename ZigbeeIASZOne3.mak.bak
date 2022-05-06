@@ -74,7 +74,6 @@ SOURCE_FILES = \
   ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/platform/emdrv/uartdrv/src/uartdrv.c \
  \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/platform\base\hal\plugin\antenna-stub\antenna-stub.c \
-../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/util\plugin\plugin-common\battery-monitor\battery-monitor-efr32.c \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol\zigbee\stack\framework\ccm-star.c \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/platform\radio\rail_lib\plugin\coexistence\protocol\ieee802154\coexistence-802154.c \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/platform\radio\rail_lib\plugin\coexistence\protocol\ieee802154\coulomb-counter-802154.c \

@@ -228,6 +228,9 @@ SOURCE_FILES = \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/platform\emdrv\nvm3\src\nvm3_default.c \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/platform\emdrv\nvm3\src\nvm3_hal_flash.c \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol\zigbee\app\framework\plugin\poll-control-server\poll-control-server.c \
+../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol\zigbee\app\framework\plugin\reporting\reporting.c \
+../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol\zigbee\app\framework\plugin\reporting\reporting-cli.c \
+../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol\zigbee\app\framework\plugin\reporting\reporting-default-configuration.c \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol\zigbee\app\framework\plugin\scan-dispatch\scan-dispatch.c \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/platform\base\hal\plugin\serial\serial.c \
 ../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol\zigbee\app\framework\plugin\simple-main\simple-main.c \

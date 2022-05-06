@@ -770,16 +770,6 @@ bool emberAfMainStartCallback(int* returnCode,
   return false;  // exit?
 }
 
-/** @brief Main Tick
- *
- * Whenever main application tick is called, this callback will be called at the
- * end of the main tick execution.
- *
- */
-void emberAfMainTickCallback(void)
-{
-}
-
 /** @brief Scenes Cluster Make Invalid
  *
  * This function is called to invalidate the valid attribute in the Scenes
@@ -1599,17 +1589,6 @@ void emberAfPartnerLinkKeyExchangeResponseCallback(EmberNodeId sender,
 bool emberAfPerformingKeyEstablishmentCallback(void)
 {
   return false;
-}
-
-/** @brief Data Ready
- *
- * This function is called whenever the battery monitor has generated a new
- * valid battery level.
- *
- * @param batteryVoltageMilliV The battery voltage, in milli Volts  Ver.: always
- */
-void emberAfPluginBatteryMonitorDataReadyCallback(uint16_t batteryVoltageMilliV)
-{
 }
 
 /** @brief Rollover

@@ -12,12 +12,20 @@
   EmberEventControl emberAfPollControlClusterServerTickCallbackControl1; \
   EmberEventControl emberAfIasZoneClusterServerTickCallbackControl1; \
   extern EmberEventControl IADCCollectEventControl; \
+  extern EmberEventControl ReportMessgeToMCUEventControl; \
+  extern EmberEventControl SentZoneStatusEventControl; \
+  extern EmberEventControl StartLowLevelEventControl; \
+  extern EmberEventControl StopLowLevelEventControl; \
   extern EmberEventControl emberAfPluginGpioSensorDebounceEventControl; \
   extern EmberEventControl emberAfPluginGpioSensorInterruptEventControl; \
   extern EmberEventControl emberAfPluginIasZoneServerManageQueueEventControl; \
   extern EmberEventControl emberAfPluginNetworkSteeringFinishSteeringEventControl; \
   extern EmberEventControl emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventControl; \
   extern void IADCCollectEventHandler(void); \
+  extern void ReportMessgeToMCUEventHandler(void); \
+  extern void SentZoneStatusEventHandler(void); \
+  extern void StartLowLevelEventHandler(void); \
+  extern void StopLowLevelEventHandler(void); \
   extern void emberAfPluginGpioSensorDebounceEventHandler(void); \
   extern void emberAfPluginGpioSensorInterruptEventHandler(void); \
   extern void emberAfPluginIasZoneServerManageQueueEventHandler(void); \
@@ -58,6 +66,10 @@
   { &emberAfPollControlClusterServerTickCallbackControl1, emberAfPollControlClusterServerTickCallbackWrapperFunction1 }, \
   { &emberAfIasZoneClusterServerTickCallbackControl1, emberAfIasZoneClusterServerTickCallbackWrapperFunction1 }, \
   { &IADCCollectEventControl, IADCCollectEventHandler }, \
+  { &ReportMessgeToMCUEventControl, ReportMessgeToMCUEventHandler }, \
+  { &SentZoneStatusEventControl, SentZoneStatusEventHandler }, \
+  { &StartLowLevelEventControl, StartLowLevelEventHandler }, \
+  { &StopLowLevelEventControl, StopLowLevelEventHandler }, \
   { &emberAfPluginGpioSensorDebounceEventControl, emberAfPluginGpioSensorDebounceEventHandler }, \
   { &emberAfPluginGpioSensorInterruptEventControl, emberAfPluginGpioSensorInterruptEventHandler }, \
   { &emberAfPluginIasZoneServerManageQueueEventControl, emberAfPluginIasZoneServerManageQueueEventHandler }, \
@@ -72,6 +84,10 @@
 #define EMBER_AF_GENERATED_EVENT_STRINGS   \
   "Poll Control Cluster Server EP 1",  \
   "IAS Zone Cluster Server EP 1",  \
+  "I a d c collect event control",  \
+  "Event data",  \
+  "Sent zone status event control",  \
+  "Event data",  \
   "Event data",  \
   "GPIO Sensor Interface Plugin Debounce",  \
   "GPIO Sensor Interface Plugin Interrupt",  \

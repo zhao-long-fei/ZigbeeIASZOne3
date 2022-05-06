@@ -20,9 +20,9 @@
 // $[BTL_BUTTON]
 // [BTL_BUTTON]$
 
-#define GPIO_SENSOR_PORT                    gpioPortB
+#define GPIO_SENSOR_PORT                    gpioPortA
 
-#define GPIO_SENSOR_PIN                      (1U)
+#define GPIO_SENSOR_PIN                      (4U)
 
 // $[BUTTON]
 #define BSP_BUTTON_PRESENT                    (1)
@@ -96,13 +96,6 @@
 // [IOEXP]$
 
 // $[LED]
-#define BSP_LED_PRESENT                       (1)
-
-#define BSP_LED_COUNT                         (2U)
-#define BSP_LED_INIT                          { { BSP_LED0_PORT, BSP_LED0_PIN }, { BSP_LED1_PORT, BSP_LED1_PIN } }
-#define HAL_LED_COUNT                         (0U)
-#define HAL_LED_ENABLE                        { 0, 1 }
-#define BSP_LED_POLARITY                      (1)
 // [LED]$
 
 // $[LETIMER0]
@@ -134,7 +127,7 @@
 #define HAL_SERIAL_RXWAKE_ENABLE              (0)
 #define HAL_SERIAL_IDLE_WAKE_ENABLE           (1)
 #define HAL_SERIAL_USART0_ENABLE              (1)
-#define HAL_SERIAL_USART1_ENABLE              (0)
+#define HAL_SERIAL_USART1_ENABLE              (1)
 #define HAL_SERIAL_USART2_ENABLE              (0)
 #define BSP_SERIAL_APP_TX_PIN                 (5U)
 #define BSP_SERIAL_APP_TX_PORT                (gpioPortA)
@@ -195,6 +188,26 @@
 // [USART0]$
 
 // $[USART1]
+#define PORTIO_USART1_RX_PIN                  (1U)
+#define PORTIO_USART1_RX_PORT                 (gpioPortB)
+
+#define PORTIO_USART1_TX_PIN                  (0U)
+#define PORTIO_USART1_TX_PORT                 (gpioPortB)
+
+#define HAL_USART1_ENABLE                     (1)
+
+#define BSP_USART1_TX_PIN                     (0U)
+#define BSP_USART1_TX_PORT                    (gpioPortB)
+
+#define BSP_USART1_RX_PIN                     (1U)
+#define BSP_USART1_RX_PORT                    (gpioPortB)
+
+#define HAL_USART1_BAUD_RATE                  (115200UL)
+#define HAL_USART1_FLOW_CONTROL               (HAL_USART_FLOW_CONTROL_NONE)
+#define HAL_USART1_RXSTOP                     (16UL)
+#define HAL_USART1_RXSTART                    (16UL)
+#define HAL_USART1_TX_QUEUE_SIZE              (128UL)
+#define HAL_USART1_RX_QUEUE_SIZE              (128UL)
 // [USART1]$
 
 // $[USART2]

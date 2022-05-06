@@ -424,6 +424,21 @@
 			<locationURI>STUDIO_SDK_LOC/protocol/zigbee/app/framework/plugin/poll-control-server/poll-control-server.c</locationURI>
 		</link>
 		<link>
+			<name>reporting/reporting-cli.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/protocol/zigbee/app/framework/plugin/reporting/reporting-cli.c</locationURI>
+		</link>
+		<link>
+			<name>reporting/reporting-default-configuration.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/protocol/zigbee/app/framework/plugin/reporting/reporting-default-configuration.c</locationURI>
+		</link>
+		<link>
+			<name>reporting/reporting.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/protocol/zigbee/app/framework/plugin/reporting/reporting.c</locationURI>
+		</link>
+		<link>
 			<name>scan-dispatch/scan-dispatch.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/protocol/zigbee/app/framework/plugin/scan-dispatch/scan-dispatch.c</locationURI>

@@ -860,6 +860,30 @@
 
 /** @} */ // end group zdo
 
+/** @addtogroup identify Cluster Commands: Identify
+ * @ingroup cli
+ * This group describes the CLI commands for the Identify cluster. Listed below
+ * is a description of the cluster:<br><br><i> Attributes and commands for
+ * putting a device into Identification mode (e.g. flashing a light).</i>
+ * 
+ * @{
+ */
+
+/** @brief <b>zcl identify off [endpoint:1] </b>
+ *   - <i>Writes the IdentifyTime attribute</i>
+ *     - endpoint - INT8U - The endpoint on which to stop identifying
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_IDENTIFY_ZCL_IDENTIFY_OFF
+
+/** @brief <b>zcl identify on [endpoint:1] [time:2] </b>
+ *   - <i>Writes the IdentifyTime attribute</i>
+ *     - endpoint - INT8U - The endpoint on the device which should begin identifying
+ *     - time - INT16U - The number of seconds to spend identifying
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_IDENTIFY_ZCL_IDENTIFY_ON
+
+/** @} */ // end group identify
+
 /** @addtogroup plugin-counters Plugin Commands: Counters
  * @ingroup cli
  * This plugin provides APIs and CLI commands for reading and manipulating
@@ -914,6 +938,112 @@
 #define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTERS_SIMPLE_PRINT
 
 /** @} */ // end group plugin-counters
+
+/** @addtogroup plugin-end-device-support Plugin Commands: End Device Support
+ * @ingroup cli
+ * The End Device Support plugin contributes commands for controlling the
+ * polling behavior of the device.
+ * 
+ * @{
+ */
+
+/** @brief <b>plugin end-device-support force-short-poll [shortPoll:1] </b>
+ *   - <i>Sets whether the CLI forces the device to short poll.</i>
+ *     - shortPoll - BOOLEAN - The value indicating whether the device should short poll.
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_END_DEVICE_SUPPORT_PLUGIN_END_DEVICE_SUPPORT_FORCE_SHORT_POLL
+
+/** @brief <b>plugin end-device-support poll-completed-callback [pollCompletedCallbackCommand:1] </b>
+ *   - <i>Sets whether the device's poll completed callback function is enabled.</i>
+ *     - pollCompletedCallbackCommand - BOOLEAN - The value indicating whether the device's poll completed callback function is enabled.
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_END_DEVICE_SUPPORT_PLUGIN_END_DEVICE_SUPPORT_POLL_COMPLETED_CALLBACK
+
+/** @brief <b>plugin end-device-support status </b>
+ *   - <i>Display the status of the End Device's polling.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_END_DEVICE_SUPPORT_PLUGIN_END_DEVICE_SUPPORT_STATUS
+
+/** @} */ // end group plugin-end-device-support
+
+/** @addtogroup plugin-ias-zone-server Plugin Commands: IAS Zone Server
+ * @ingroup cli
+ * This plugin provides a set of CLI commands for managing the local IAS Zone
+ * server.
+ * 
+ * @{
+ */
+
+/** @brief <b>plugin ias-zone-server change-backoff-config [firstBackoff:1] [commonRatio:1] [maxBackoff:4] [unlimitedRetries:1] [maxRetryAttempts:2] </b>
+ *   - <i>Update the IAS Zone server's backoff configuration parameters.</i>
+ *     - firstBackoff - INT8U - First backoff time in seconds.
+ *     - commonRatio - INT8U - Backoff increase common ratio.
+ *     - maxBackoff - INT32U - Maximum backoff time in seconds.
+ *     - unlimitedRetries - BOOLEAN - Unlimited retires.
+ *     - maxRetryAttempts - INT16U - Maximum retry attempts.
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IAS_ZONE_SERVER_PLUGIN_IAS_ZONE_SERVER_CHANGE_BACKOFF_CONFIG
+
+/** @brief <b>plugin ias-zone-server changeStatus [newStatus:2] [timeSinceOccurredSeconds:1] [endpoint:1] </b>
+ *   - <i>Update the zone status attribute of a given endpoint's IAS Zone cluster to the given value</i>
+ *     - newStatus - INT16U - The new status to be written
+ *     - timeSinceOccurredSeconds - INT8U - The amount time that has passed since the last update occurred (seconds)
+ *     - endpoint - INT8U - The endpoint whose zone status attribute is to be updated
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IAS_ZONE_SERVER_PLUGIN_IAS_ZONE_SERVER_CHANGE_STATUS
+
+/** @brief <b>plugin ias-zone-server info [endpoint:1] </b>
+ *   - <i>Print current value of the following cluster attributes: zone type, zone state, zone status, zone id</i>
+ *     - endpoint - INT8U - The endpoint whose IAS Zone Cluster information is to be printed
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IAS_ZONE_SERVER_PLUGIN_IAS_ZONE_SERVER_INFO
+
+/** @brief <b>plugin ias-zone-server print-queue </b>
+ *   - <i>Prints information on the status queue.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IAS_ZONE_SERVER_PLUGIN_IAS_ZONE_SERVER_PRINT_QUEUE
+
+/** @brief <b>plugin ias-zone-server print-queue-config </b>
+ *   - <i>Prints the status queue config.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IAS_ZONE_SERVER_PLUGIN_IAS_ZONE_SERVER_PRINT_QUEUE_CONFIG
+
+/** @brief <b>plugin ias-zone-server set-enrollment-mode [endpoint:1] [enrollmentMode:1] </b>
+ *   - <i>Update the IAS Zone server's enrollment method to the specified value</i>
+ *     - endpoint - INT8U - The endpoint whose enrollment mode is to be updated
+ *     - enrollmentMode - INT8U - The new enrollment mode
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IAS_ZONE_SERVER_PLUGIN_IAS_ZONE_SERVER_SET_ENROLLMENT_MODE
+
+/** @} */ // end group plugin-ias-zone-server
+
+/** @addtogroup plugin-idle-sleep Plugin Commands: Idle/Sleep
+ * @ingroup cli
+ * The Sleep plugin contributes several commands to the application framework's
+ * CLI.  These commands are used to control the idling and sleeping behavior of
+ * the device.
+ * 
+ * @{
+ */
+
+/** @brief <b>plugin idle-sleep awake-when-not-joined [stayAwakeWhenNotJoined:1] </b>
+ *   - <i>Sets whether the device stays awake when not joined to a ZigBee network.</i>
+ *     - stayAwakeWhenNotJoined - BOOLEAN - The value indicating whether the device should stay awake when not joined to a ZigBee network.
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IDLE_SLEEP_PLUGIN_IDLE_SLEEP_AWAKE_WHEN_NOT_JOINED
+
+/** @brief <b>plugin idle-sleep force-awake [stayAwake:1] </b>
+ *   - <i>Sets whether the device is forced to stay awake.</i>
+ *     - stayAwake - BOOLEAN - The value indicating whether the device should stay awake.
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IDLE_SLEEP_PLUGIN_IDLE_SLEEP_FORCE_AWAKE
+
+/** @brief <b>plugin idle-sleep status </b>
+ *   - <i>Display the status of the sleeping behavior.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_IDLE_SLEEP_PLUGIN_IDLE_SLEEP_STATUS
+
+/** @} */ // end group plugin-idle-sleep
 
 /** @addtogroup plugin-network-steering Plugin Commands: Network Steering
  * @ingroup cli
@@ -1085,6 +1215,44 @@
 
 /** @} */ // end group zdo
 
+/** @addtogroup identify Cluster Commands: Identify
+ * @ingroup cli
+ * This group describes the CLI commands for the Identify cluster. Listed below
+ * is a description of the cluster:<br><br><i> Attributes and commands for
+ * putting a device into Identification mode (e.g. flashing a light).</i>
+ * 
+ * @{
+ */
+
+/** @brief <b>zcl identify id [identifyTime:2] </b>
+ *   - <i>Command description for Identify</i>
+ *     - identifyTime - INT16U
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_IDENTIFY_ID
+
+/** @brief <b>zcl identify query </b>
+ *   - <i>Command description for IdentifyQuery</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_IDENTIFY_QUERY
+
+/** @brief <b>zcl identify ez-mode [action:1] </b>
+ *   - <i>Invoke EZMode on an Identify Server</i>
+ *     - action - BITMAP8
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_IDENTIFY_EZ_MODE
+
+/** @brief <b>zcl identify trigger [effectId:1] [effectVariant:1] </b>
+ *   - <i>Command description for TriggerEffect</i>
+ *     - effectId - IdentifyEffectIdentifier [ENUM8]
+ *     - effectVariant - IdentifyEffectVariant [ENUM8]
+ * @sa 
+ * EmberAfIdentifyEffectIdentifier
+ * EmberAfIdentifyEffectVariant
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_IDENTIFY_TRIGGER
+
+/** @} */ // end group identify
+
 /** @addtogroup plugin-counters Plugin Commands: Counters
  * @ingroup cli
  * This plugin provides APIs and CLI commands for reading and manipulating
@@ -1094,6 +1262,37 @@
  */
 
 /** @} */ // end group plugin-counters
+
+/** @addtogroup plugin-end-device-support Plugin Commands: End Device Support
+ * @ingroup cli
+ * The End Device Support plugin contributes commands for controlling the
+ * polling behavior of the device.
+ * 
+ * @{
+ */
+
+/** @} */ // end group plugin-end-device-support
+
+/** @addtogroup plugin-ias-zone-server Plugin Commands: IAS Zone Server
+ * @ingroup cli
+ * This plugin provides a set of CLI commands for managing the local IAS Zone
+ * server.
+ * 
+ * @{
+ */
+
+/** @} */ // end group plugin-ias-zone-server
+
+/** @addtogroup plugin-idle-sleep Plugin Commands: Idle/Sleep
+ * @ingroup cli
+ * The Sleep plugin contributes several commands to the application framework's
+ * CLI.  These commands are used to control the idling and sleeping behavior of
+ * the device.
+ * 
+ * @{
+ */
+
+/** @} */ // end group plugin-idle-sleep
 
 /** @addtogroup plugin-network-steering Plugin Commands: Network Steering
  * @ingroup cli

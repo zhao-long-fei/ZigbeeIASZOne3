@@ -104,17 +104,6 @@ void emberAfGroupsClusterClearGroupTableCallback(uint8_t endpoint)
 {
 }
 
-/** @brief Clear Report Table
- *
- * This function is called by the framework when the application should clear
- * the report table.
- *
- */
-EmberStatus emberAfClearReportTableCallback(void)
-{
-  return EMBER_LIBRARY_NOT_PRESENT;
-}
-
 /** @brief Scenes Cluster ClearSceneTable
  *
  * This function is called by the framework when the application should clear
@@ -174,21 +163,6 @@ bool emberAfClusterSecurityCustomCallback(EmberAfProfileId profileId,
                                           uint8_t commandId)
 {
   // By default, assume APS encryption is not required.
-  return false;
-}
-
-/** @brief Configure Reporting Command
- *
- * This function is called by the application framework when a Configure
- * Reporting command is received from an external device.  The Configure
- * Reporting command contains a series of attribute reporting configuration
- * records.  The application should return true if the message was processed or
- * false if it was not.
- *
- * @param cmd   Ver.: always
- */
-bool emberAfConfigureReportingCommandCallback(const EmberAfClusterCommand *cmd)
-{
   return false;
 }
 
@@ -768,16 +742,6 @@ bool emberAfMainStartCallback(int* returnCode,
   // and argv "0" and "NULL" are passed respectively.
 
   return false;  // exit?
-}
-
-/** @brief Main Tick
- *
- * Whenever main application tick is called, this callback will be called at the
- * end of the main tick execution.
- *
- */
-void emberAfMainTickCallback(void)
-{
 }
 
 /** @brief Scenes Cluster Make Invalid
@@ -1763,6 +1727,46 @@ void emberAfPluginPollControlServerCheckInTimeoutCallback(void)
   return;
 }
 
+/** @brief Configured
+ *
+ * This callback is called by the Reporting plugin whenever a reporting entry
+ * is configured, including when entries are deleted or updated. The
+ * application can use this callback for scheduling readings or measurements
+ * based on the minimum and maximum reporting interval for the entry. The
+ * application should return EMBER_ZCL_STATUS_SUCCESS if it can support the
+ * configuration or an error status otherwise. Note: attribute reporting is
+ * required for many clusters and attributes, so rejecting a reporting
+ * configuration may violate ZigBee specifications.
+ *
+ * @param entry   Ver.: always
+ */
+EmberAfStatus emberAfPluginReportingConfiguredCallback(const EmberAfPluginReportingEntry *entry)
+{
+  return EMBER_ZCL_STATUS_SUCCESS;
+}
+
+/** @brief Configured
+ *
+ * This callback is called by the Reporting plugin to get the default reporting
+ * configuration values from user if there is no default value available within
+ * af generated default reporting configuration tabel. The application need to
+ * write to the minInterval, maxInterval and reportable change in the passed
+ * IO pointer in the arguement while handleing this callback, then application
+ * shall return true if it has provided the default values or else false for
+ * reporting plugin to further handleing.
+ *
+ * @param entry   Ver.: always
+ */
+bool emberAfPluginReportingGetDefaultReportingConfigCallback(EmberAfPluginReportingEntry *entry)
+{
+  // Change the values as appropriate for the application.
+  entry->data.reported.minInterval = 1;
+  entry->data.reported.maxInterval = 0xFFFE;
+  entry->data.reported.reportableChange = 1;
+  entry->direction = EMBER_ZCL_REPORTING_DIRECTION_REPORTED;
+  return true;
+}
+
 
 /** @brief EZSP Error Handler
  *
@@ -2002,19 +2006,6 @@ bool emberAfReadAttributesResponseCallback(EmberAfClusterId clusterId,
   return false;
 }
 
-/** @brief Read Reporting Configuration Command
- *
- * This function is called by the application framework when a Read Reporting
- * Configuration command is received from an external device.  The application
- * should return true if the message was processed or false if it was not.
- *
- * @param cmd   Ver.: always
- */
-bool emberAfReadReportingConfigurationCommandCallback(const EmberAfClusterCommand *cmd)
-{
-  return false;
-}
-
 /** @brief Read Reporting Configuration Response
  *
  * This function is called by the application framework when a Read Reporting
@@ -2141,31 +2132,6 @@ bool emberAfReportAttributesCallback(EmberAfClusterId clusterId,
                                      uint16_t bufLen)
 {
   return false;
-}
-
-/** @brief Reporting Attribute Change
- *
- * This function is called by the framework when an attribute managed by the
- * framework changes.  The application should call this function when an
- * externally-managed attribute changes.  The application should use the change
- * notification to inform its reporting decisions.
- *
- * @param endpoint   Ver.: always
- * @param clusterId   Ver.: always
- * @param attributeId   Ver.: always
- * @param mask   Ver.: always
- * @param manufacturerCode   Ver.: always
- * @param type   Ver.: always
- * @param data   Ver.: always
- */
-void emberAfReportingAttributeChangeCallback(uint8_t endpoint,
-                                             EmberAfClusterId clusterId,
-                                             EmberAfAttributeId attributeId,
-                                             uint8_t mask,
-                                             uint16_t manufacturerCode,
-                                             EmberAfAttributeType type,
-                                             uint8_t *data)
-{
 }
 
 /** @brief Scan Error

@@ -51,6 +51,9 @@ enable,DEBUG
 {setupId:eventConfiguration
 IADCCollectEventControl,IADCCollectEventHandler
 SentZoneStatusEventControl,SentZoneStatusEventHandler
+StartLowLevelEventControl,StartLowLevelEventHandler
+StopLowLevelEventControl,StopLowLevelEventHandler
+ReportMessgeToMCUEventControl,ReportMessgeToMCUEventHandler
 }
 {setupId:halOptions
 }
@@ -141,7 +144,7 @@ beginAttrList:OPTIONAL
 endAttrList:OPTIONAL
 beginAttributeDefaults
 cl:0x0500, at:0x0001, di:server, mf:0x0000 => 0x000d
-cl:0x0020, at:0x0001, di:server, mf:0x0000 => 0x00000024
+cl:0x0020, at:0x0001, di:server, mf:0x0000 => 0x00000048
 endAttributeDefaults
 configuredNetwork:*type:ZIGBEE_PRO, name:Primary
 beginEndpointType:Primary
@@ -374,6 +377,7 @@ callbacks:emberAfPluginIdleSleepOkToSleepCallback
 callbacks:emberAfPluginIdleSleepWakeUpCallback
 callbacks:emberAfPluginGpioSensorStateChangedCallback
 callbacks:emberAfMainInitCallback
+callbacks:emberAfMainTickCallback
 }
 {setupId:zclCustomizer
 }
@@ -614,7 +618,8 @@ appPlugin:rail-library,true
 
 appPlugin:rail-library-mp,false
 appPlugin:relative-humidity-measurement-server,false
-appPlugin:reporting,false
+appPlugin:reporting,true
+
 appPlugin:rtos-common,false
 appPlugin:sb1-gesture-sensor,false
 appPlugin:sb1-gesture-sensor-stub,false

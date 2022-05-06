@@ -15,12 +15,12 @@
 #if BIGENDIAN_CPU
 #define GENERATED_DEFAULTS { \
 0x00, 0x00, 0x38, 0x40 /* 0,Default value: Poll Control,check-in interval */, \
-0x00, 0x00, 0x00, 0x24 /* 4,Default value: Poll Control,long poll interval */, \
+0x00, 0x00, 0x00, 0x48 /* 4,Default value: Poll Control,long poll interval */, \
   }
 #else // ! BIGENDIAN_CPU
 #define GENERATED_DEFAULTS { \
 0x40, 0x38, 0x00, 0x00 /* 0,Default value: Poll Control,check-in interval */, \
-0x24, 0x00, 0x00, 0x00 /* 4,Default value: Poll Control,long poll interval */, \
+0x48, 0x00, 0x00, 0x00 /* 4,Default value: Poll Control,long poll interval */, \
   }
 #endif // BIGENDIAN_CPU
 
@@ -115,12 +115,14 @@ const EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (
 
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_DECLARATIONS \
+  void emberAfPluginReportingInitCallback(void); \
   void emberAfPluginGpioSensorInitCallback(void); \
   void emberAfPluginIdleSleepInitCallback(void); \
   void emberAfPluginCountersInitCallback(void); \
 
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_CALLS \
+  emberAfPluginReportingInitCallback(); \
   emberAfPluginGpioSensorInitCallback(); \
   emberAfPluginIdleSleepInitCallback(); \
   emberAfPluginCountersInitCallback(); \
@@ -129,6 +131,7 @@ const EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (
 #define EMBER_AF_GENERATED_PLUGIN_STACK_STATUS_FUNCTION_DECLARATIONS \
   void emberAfPluginEndDeviceSupportStackStatusCallback(EmberStatus status); \
   void emberAfPluginPollControlServerStackStatusCallback(EmberStatus status); \
+  void emberAfPluginReportingStackStatusCallback(EmberStatus status); \
   void emberAfPluginNetworkSteeringStackStatusCallback(EmberStatus status); \
   void emberAfPluginIasZoneServerStackStatusCallback(EmberStatus status); \
 
@@ -136,6 +139,7 @@ const EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (
 #define EMBER_AF_GENERATED_PLUGIN_STACK_STATUS_FUNCTION_CALLS \
   emberAfPluginEndDeviceSupportStackStatusCallback(status); \
   emberAfPluginPollControlServerStackStatusCallback(status); \
+  emberAfPluginReportingStackStatusCallback(status); \
   emberAfPluginNetworkSteeringStackStatusCallback(status); \
   emberAfPluginIasZoneServerStackStatusCallback(status); \
 

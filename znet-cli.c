@@ -666,6 +666,43 @@ static EmberCommandEntry emberCommandPluginNetworkSteeringTable[] = {
   emberCommandEntryActionWithDetails("stop", emberAfPluginNetworkSteeringStopCommand, "", "Stops the network steering process.", NULL),
   emberCommandEntryTerminator(),
 };
+void emAfPluginReportingCliAdd(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginReportingAddCommandArguments[] = {
+  "The local endpoint from which the attribute is reported.",
+  "The cluster where the attribute is located.",
+  "The id of the attribute being reported.",
+  "0 for client-side attributes or 1 for server-side attributes.",
+  "The minimum reporting interval, measured in seconds.",
+  "The maximum reporting interval, measured in seconds.",
+  "The minimum change to the attribute that will result in a report being ...",
+  NULL
+};
+#endif
+
+
+void emAfPluginReportingCliClear(void);
+void emAfPluginReportingCliClearLastReportTime(void);
+void emAfPluginReportingCliPrint(void);
+void emAfPluginReportingCliRemove(void);
+#if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
+static const char * const pluginReportingRemoveCommandArguments[] = {
+  "The index of the report to be removed.",
+  NULL
+};
+#endif
+
+
+void emAfPluginReportingCliTestTiming(void);
+static EmberCommandEntry emberCommandPluginReportingTable[] = {
+  emberCommandEntryActionWithDetails("add", emAfPluginReportingCliAdd, "uvvuvvw", "Add a new entry to the report table.", pluginReportingAddCommandArguments),
+  emberCommandEntryActionWithDetails("clear", emAfPluginReportingCliClear, "", "Clear all entries from the report table.", NULL),
+  emberCommandEntryActionWithDetails("clear-last-report-time", emAfPluginReportingCliClearLastReportTime, "", "Clear last report time of attributes.", NULL),
+  emberCommandEntryActionWithDetails("print", emAfPluginReportingCliPrint, "", "Print the report table.", NULL),
+  emberCommandEntryActionWithDetails("remove", emAfPluginReportingCliRemove, "u", "Remove an entry from the report table.", pluginReportingRemoveCommandArguments),
+  emberCommandEntryActionWithDetails("test-timing", emAfPluginReportingCliTestTiming, "", "FOR TESTING PURPOSES - gather timing metrics for reporting table opera ...", NULL),
+  emberCommandEntryTerminator(),
+};
 void emberAfPluginSetTCLinkKeyUpdateTimerCommand(void);
 #if defined(EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD)
 static const char * const pluginUpdateTcLinkKeyTimerCommandArguments[] = {
@@ -686,6 +723,7 @@ static EmberCommandEntry emberCommandPluginTable[] = {
   emberCommandEntrySubMenu("ias-zone-server", emberCommandPluginIasZoneServerTable, ""),
   emberCommandEntrySubMenu("idle-sleep", emberCommandPluginIdleSleepTable, ""),
   emberCommandEntrySubMenu("network-steering", emberCommandPluginNetworkSteeringTable, ""),
+  emberCommandEntrySubMenu("reporting", emberCommandPluginReportingTable, ""),
   emberCommandEntrySubMenu("update-tc-link-key", emberCommandPluginUpdateTcLinkKeyTable, ""),
   emberCommandEntryTerminator(),
 };
