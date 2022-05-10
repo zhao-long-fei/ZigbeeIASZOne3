@@ -12,6 +12,9 @@
 // Token header for the IAS Zone Server plugin.
 #include "../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol/zigbee/app/framework/plugin/ias-zone-server/ias-zone-server-tokens.h"
 
+// Token header for the Reporting plugin.
+#include "../../../../../SiliconLabs/SimplicityStudio/v5/developer/sdks/gecko_sdk_suite/v3.1/protocol/zigbee/app/framework/plugin/reporting/reporting-tokens.h"
+
 #ifdef CUSTOM_TOKEN_HEADER
   #include CUSTOM_TOKEN_HEADER
 #endif

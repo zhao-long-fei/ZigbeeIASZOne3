@@ -10,6 +10,8 @@
 
 // Token header for the IAS Zone Server plugin.
 
+// Token header for the Reporting plugin.
+
 #ifdef CUSTOM_TOKEN_HEADER
   #include CUSTOM_TOKEN_HEADER
 #endif

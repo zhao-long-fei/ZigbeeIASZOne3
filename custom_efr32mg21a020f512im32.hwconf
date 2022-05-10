@@ -15,7 +15,10 @@
     <property object="I2C1" propertyId="I2C.showadvanced.BOOL" value="1"/>
     <property object="IADC0" propertyId="ABPeripheral.included" value="true"/>
     <property object="IADC0" propertyId="IADC.BSP_IADC_POS.PIN" value="PC04"/>
-    <property object="LED" propertyId="LED.BSP_LED_POLARITY.ENUM" value="0"/>
+    <property object="LED" propertyId="ABPeripheral.included" value="true"/>
+    <property object="LED" propertyId="LED.BSP_LED0.PIN" value="PA00"/>
+    <property object="LED" propertyId="LED.BSP_LED_COUNT.INT" value="1"/>
+    <property object="LED" propertyId="LED.HAL_LED_COUNT.INT" value="1"/>
     <property object="LED" propertyId="LED.showadvanced.BOOL" value="1"/>
     <property object="PB00" propertyId="ports.settings.pinmode" value="Input pull filter"/>
     <property object="PB01" propertyId="ports.settings.pinmode" value="Input pull"/>
@@ -53,6 +56,7 @@
     <property object="USART1" propertyId="USART.BSP_USART_MOSI.PIN" value="PB00"/>
     <property object="USART1" propertyId="USART.BSP_USART_RX.PIN" value="PB01"/>
     <property object="USART1" propertyId="USART.BSP_USART_TX.PIN" value="PB00"/>
+    <property object="USART1" propertyId="USART.HAL_USART_BAUD_RATE.INT" value="9600"/>
     <property object="USART1" propertyId="USART.HAL_USART_RXSTART.INT" value="16"/>
     <property object="USART1" propertyId="USART.HAL_USART_RXSTOP.INT" value="16"/>
     <property object="USART1" propertyId="USART.HAL_USART_RX_QUEUE_SIZE.INT" value="128"/>

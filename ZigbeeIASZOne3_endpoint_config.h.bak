@@ -115,12 +115,14 @@ const EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (
 
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_DECLARATIONS \
+  void emberAfPluginReportingInitCallback(void); \
   void emberAfPluginGpioSensorInitCallback(void); \
   void emberAfPluginIdleSleepInitCallback(void); \
   void emberAfPluginCountersInitCallback(void); \
 
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_CALLS \
+  emberAfPluginReportingInitCallback(); \
   emberAfPluginGpioSensorInitCallback(); \
   emberAfPluginIdleSleepInitCallback(); \
   emberAfPluginCountersInitCallback(); \
@@ -129,6 +131,7 @@ const EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (
 #define EMBER_AF_GENERATED_PLUGIN_STACK_STATUS_FUNCTION_DECLARATIONS \
   void emberAfPluginEndDeviceSupportStackStatusCallback(EmberStatus status); \
   void emberAfPluginPollControlServerStackStatusCallback(EmberStatus status); \
+  void emberAfPluginReportingStackStatusCallback(EmberStatus status); \
   void emberAfPluginNetworkSteeringStackStatusCallback(EmberStatus status); \
   void emberAfPluginIasZoneServerStackStatusCallback(EmberStatus status); \
 
@@ -136,6 +139,7 @@ const EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (
 #define EMBER_AF_GENERATED_PLUGIN_STACK_STATUS_FUNCTION_CALLS \
   emberAfPluginEndDeviceSupportStackStatusCallback(status); \
   emberAfPluginPollControlServerStackStatusCallback(status); \
+  emberAfPluginReportingStackStatusCallback(status); \
   emberAfPluginNetworkSteeringStackStatusCallback(status); \
   emberAfPluginIasZoneServerStackStatusCallback(status); \
 
@@ -166,6 +170,7 @@ const EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (
 // Generated reporting configuration defaults
 #define EMBER_AF_GENERATED_REPORTING_CONFIG_DEFAULTS {\
   { EMBER_ZCL_REPORTING_DIRECTION_REPORTED, 1, 0x0001, 0x0021, CLUSTER_MASK_SERVER, 0x0000, 1, 65534, 0 }, \
+  { EMBER_ZCL_REPORTING_DIRECTION_REPORTED, 1, 0x0500, 0x0002, CLUSTER_MASK_SERVER, 0x0000, 1, 65534, 0 }, \
 }
-#define EMBER_AF_GENERATED_REPORTING_CONFIG_DEFAULTS_TABLE_SIZE (1)
+#define EMBER_AF_GENERATED_REPORTING_CONFIG_DEFAULTS_TABLE_SIZE (2)
 #endif // SILABS_AF_ENDPOINT_CONFIG

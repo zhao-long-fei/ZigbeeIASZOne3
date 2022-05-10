@@ -54,6 +54,8 @@ SentZoneStatusEventControl,SentZoneStatusEventHandler
 StartLowLevelEventControl,StartLowLevelEventHandler
 StopLowLevelEventControl,StopLowLevelEventHandler
 ReportMessgeToMCUEventControl,ReportMessgeToMCUEventHandler
+emberAfKeepConnectEventControl,emberAfKeepConnectEventControlHandler
+emberAfLedJoinNetworkStatusEventControl,emberAfLedJoinNetworkStatusEventHandler
 }
 {setupId:halOptions
 }
@@ -94,6 +96,7 @@ The application maintains persistent storage using the NVM3 plugin.
 {setupId:macros
 TRANSITION_TIME_DS=20
 FINDING_AND_BINDING_DELAY_MS=3000
+-DNO_LED=1
 }
 {setupId:mpsi
 - mappings
@@ -145,6 +148,8 @@ endAttrList:OPTIONAL
 beginAttributeDefaults
 cl:0x0500, at:0x0001, di:server, mf:0x0000 => 0x000d
 cl:0x0020, at:0x0001, di:server, mf:0x0000 => 0x00000048
+cl:0x0000, at:0x0004, di:server, mf:0x0000 => 
+cl:0x0000, at:0x0005, di:server, mf:0x0000 => 
 endAttributeDefaults
 configuredNetwork:*type:ZIGBEE_PRO, name:Primary
 beginEndpointType:Primary

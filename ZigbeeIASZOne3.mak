@@ -315,6 +315,7 @@ CDEFS = -DAPP_BTL \
 -DLOCKBITS_IN_MAINFLASH_SIZE=8192 \
   -DHAL_CONFIG=1 \
   -DEMBER_AF_USE_HWCONF \
+  -DNO_LED=1 \
   -DEMBER_AF_API_EMBER_TYPES=\"stack/include/ember-types.h\" \
   -DEMBER_AF_API_DEBUG_PRINT=\"app/framework/util/print.h\" \
   -DEMBER_AF_API_AF_HEADER=\"app/framework/include/af.h\" \
@@ -362,6 +363,7 @@ ASMDEFS = -DAPP_BTL \
 -DLOCKBITS_IN_MAINFLASH_SIZE=8192 \
   -DHAL_CONFIG=1 \
   -DEMBER_AF_USE_HWCONF \
+  -DNO_LED=1 \
   -DEMBER_AF_API_EMBER_TYPES=\"stack/include/ember-types.h\" \
   -DEMBER_AF_API_DEBUG_PRINT=\"app/framework/util/print.h\" \
   -DEMBER_AF_API_AF_HEADER=\"app/framework/include/af.h\" \

@@ -105,6 +105,7 @@
   <macroDefinition languageCompatibility="c asm" name="LONGTOKEN_SIZE" value="0"/>
   <macroDefinition name="HAL_CONFIG" value="1"/>
   <macroDefinition name="EMBER_AF_USE_HWCONF" value=""/>
+  <macroDefinition name="NO_LED" value="1"/>
   <macroDefinition name="EMBER_AF_API_EMBER_TYPES" value="&quot;stack/include/ember-types.h&quot;"/>
   <macroDefinition name="EMBER_AF_API_DEBUG_PRINT" value="&quot;app/framework/util/print.h&quot;"/>
   <macroDefinition name="EMBER_AF_API_AF_HEADER" value="&quot;app/framework/include/af.h&quot;"/>

@@ -53,7 +53,8 @@ static volatile double singleResult;
 uint8_t  mode;
 uint8_t  EdgeTrigger;
 bool HavePeople;
-
+uint8_t networkJoinAttempts = 0;          //入网尝试次数
+uint16_t ZoneStatus;
 
 
 void IadcInitialize(void);
@@ -70,6 +71,11 @@ void IadcInitialize(void);
 bool emberAfStackStatusCallback(EmberStatus status)
 {
   // This value is ignored by the framework.
+  if(status == EMBER_NETWORK_UP) {                                        //入网成功，要告诉MCU.
+    halClearLed(0);
+    networkJoinAttempts = 0  ;                                            //入网成功后尝试次数清零。
+    emberEventControlSetInactive(emberAfLedJoinNetworkStatusEventControl);
+  }
   return false;
 }
 
@@ -158,7 +164,10 @@ void emberAfPluginIdleSleepWakeUpCallback(uint32_t durationMs)
  */
 void emberAfPluginGpioSensorStateChangedCallback(uint8_t newSensorState)
 {
+  //如果采用串口通信这段代码要注释掉。
+
   emberAfCorePrintln("emberAfPluginGpioSensorStateChangedCallback.%d",newSensorState);
+#if 0  
   uint8_t state = 0;
   uint8_t data[2] = {0,0};
   uint8_t ieeeAddress[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -215,7 +224,7 @@ void emberAfPluginGpioSensorStateChangedCallback(uint8_t newSensorState)
 
 
   emberAfCorePrintln("data[0]=%x data[1]=%x data16_t=%x ",data[0],data[1],ZoneStatus);
-
+#endif
 }
 
 void SentZoneStatusEventHandler(void)
@@ -340,7 +349,7 @@ void IADCCollectEventHandler(void)
 {
   emberEventControlSetInactive(IADCCollectEventControl);
   IADC_command(IADC0, iadcCmdStartSingle);
-  //emberEventControlSetDelayMS(IADCCollectEventControl,50000); //先取消电量的周期性上报。
+  emberEventControlSetDelayMS(IADCCollectEventControl,50000); //先取消电量的周期性上报。
 }
 
 

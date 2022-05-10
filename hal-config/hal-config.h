@@ -96,6 +96,16 @@
 // [IOEXP]$
 
 // $[LED]
+#define BSP_LED_PRESENT                       (1)
+
+#define BSP_LED0_PIN                          (0U)
+#define BSP_LED0_PORT                         (gpioPortA)
+
+#define BSP_LED_COUNT                         (1U)
+#define BSP_LED_INIT                          { { BSP_LED0_PORT, BSP_LED0_PIN } }
+#define HAL_LED_COUNT                         (1U)
+#define HAL_LED_ENABLE                        { 0, 1 }
+#define BSP_LED_POLARITY                      (1)
 // [LED]$
 
 // $[LETIMER0]
@@ -202,7 +212,7 @@
 #define BSP_USART1_RX_PIN                     (1U)
 #define BSP_USART1_RX_PORT                    (gpioPortB)
 
-#define HAL_USART1_BAUD_RATE                  (115200UL)
+#define HAL_USART1_BAUD_RATE                  (9600UL)
 #define HAL_USART1_FLOW_CONTROL               (HAL_USART_FLOW_CONTROL_NONE)
 #define HAL_USART1_RXSTOP                     (16UL)
 #define HAL_USART1_RXSTART                    (16UL)

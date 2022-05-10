@@ -8,9 +8,9 @@
 
 // Token header for the token.properties.
 
-// Token header for the IAS Zone Server plugin.
-
 // Token header for the Reporting plugin.
+
+// Token header for the IAS Zone Server plugin.
 
 #ifdef CUSTOM_TOKEN_HEADER
   #include CUSTOM_TOKEN_HEADER

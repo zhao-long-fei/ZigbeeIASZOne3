@@ -22,7 +22,7 @@ void Serial_Recv_Data(void)
       recv_buf.data_length += bytes;
 
 #if 1
-  if(recv_buf.data_length>8) {
+  if(recv_buf.data_length>10) {
     uint8_t m;
     emberAfCorePrintln("bytes %x ",bytes);
     for(m=0;m<recv_buf.data_length;m++) {
@@ -45,29 +45,14 @@ void Serial_Recv_Data(void)
                       recv_buf.temp_length++;                       //校验和错误
                       emberAfCorePrintln("----log4---- ");
                   } else {
-                                                                //数据帧为正确的
+                                                                    //数据帧为正确的
                       //在这里设置一个检查pid 的标志位，如果flag不满足，则去写pid.采用事件的形式
                       emberAfCorePrintln("----log3---- ");
-                      switch (str[2])
-                      {
-                      case DATA_REPORT_TYPE:
-                        ret = MultiIRDataReportProcessFunction(&report_mcu,&recv_buf,&str);
-                        break;
-                      case NETWORK_TYPE:
-                        /* code */
-                        break;
-                      case LED_TYPE:
-                        /* code */
-                        break;
-                      case ALARM_TYPE:
-                        /* code */
-                        break;
-                      default:
-                        break;
+                      ret = MultiIRDataReportProcessFunction(&report_mcu,&recv_buf,&str);
+
+                      if (ret) {                                    //处理完毕跳出循环
+                          break;
                       }
-                    if (ret) {                                  //处理完毕跳出循环
-                         break;
-                    }
                   }
 
                } else {
@@ -98,7 +83,7 @@ int MultiIRCountSumCheckCommand(unsigned char *ptr)
   for(i=0;i<ptr[1]+1;i++)
   {
       SUM += ptr[i];
-      emberAfCorePrintln("ptr[%d] %x",i,ptr[i] );
+      //emberAfCorePrintln("ptr[%d] %x",i,ptr[i] );
   }
   SUM = SUM%256; 
   emberAfCorePrintln("check %x",SUM );
@@ -116,7 +101,7 @@ uint8_t MultiIRCammandBytProcessFunction(serial_report_command *report_mcu,
       memset(recv_buf->cmd,0,sizeof(recv_buf->cmd));
       recv_buf->data_length = 0;                                  //数据清零
       recv_buf->temp_length = 0;
-      emberAfCorePrintln("11111111111111111111111111111111 %d",offset );
+      //emberAfCorePrintln("11111111111111111111111111111111 %d",offset );
       return 1;
   }
   //*i += offset;                                                   //一帧处理完毕，后面还有数据未处理
@@ -142,8 +127,8 @@ uint8_t MultiIRDataReportProcessFunction(serial_report_command *report_process,
   case DATA_REPORT_TYPE:                                          //数据上报类型
     ReportMessageToGateway(report_process);                       //message to gateway 上报网关要区分是主动下发，还是主动上报。
     break;
-  case NETWORK_TYPE:                                              //使能入网事件  入网状态再次入网为离网
-    /* code */
+  case NETWORK_TYPE:                                              //使能入网事件  入网状态再次入网为离网然后入网
+    NetworkSteeringOperation(report_process);
     break;
   case LED_TYPE:                                                  //带串口的mcu 灯是有mcu控制。
     /* code */
@@ -226,16 +211,25 @@ void ReportMessageToGateway(serial_report_command *report_message)
   if (report_message->cmd[8]==MotionSensor)                               //区分设备类型的原因，其它设备的函数后续也要放在这里。
   { 
     uint8_t data[2] = {0,0};
-    if (report_message->cmd[9]&0x20)                                            //报警
+    
+    if (report_message->cmd[9]&0x20)                                            //防拆报警
     {
-      //对应上报状态对应位置1                                                     
+     //对应上报状态对应位置1                                                     
       emberAfReadServerAttribute(1,                                             //读属性为取之前状态
                               ZCL_IAS_ZONE_CLUSTER_ID,
                               ZCL_ZONE_STATUS_ATTRIBUTE_ID,
                               (uint8_t*)data,
                               8);    
-      ZoneStatus = (((data[0]) & 0x00ff) +(data[1]<<8 & 0xff00)) | 0x0001;      //ZoneStatus最低位置1 报警
-      emberEventControlSetDelayMS(SentZoneStatusEventControl,0); 
+      data[0] |= 0x04;                                                          //ZoneStatus第3位置1 报警
+      ZoneStatus = (((data[0]) & 0x00ff) +(data[1]<<8 & 0xff00)) ;      
+      emberAfCorePrintln("data[0]=%x data[1] %x.",data[0],data[1]);
+      
+      emberAfWriteServerAttribute(1,                                            //此属性不勾选reporting.不会report，报警信息。
+                                  ZCL_IAS_ZONE_CLUSTER_ID,
+                                  ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                                  (uint8_t*)data,
+                                  ZCL_BITMAP16_ATTRIBUTE_TYPE); 
+      
     }else{                                                                      //取消报警
       //对应上报状态对应位置0
       emberAfReadServerAttribute(1,                                             //读属性为取之前状态
@@ -243,13 +237,85 @@ void ReportMessageToGateway(serial_report_command *report_message)
                               ZCL_ZONE_STATUS_ATTRIBUTE_ID,
                               (uint8_t*)data,
                               8);    
-      ZoneStatus = (((data[0]) & 0x00ff) +(data[1]<<8 & 0xff00)) & 0xFFFE;      //ZoneStatus最低位置0 取消报警
-      emberEventControlSetDelayMS(SentZoneStatusEventControl,0);
+      data[0] &= 0xFB;                                                          //ZoneStatus第3位置0 取消报警
+      ZoneStatus = (((data[0]) & 0x00ff) +(data[1]<<8 & 0xff00));      
+      emberAfWriteServerAttribute(1,
+                                  ZCL_IAS_ZONE_CLUSTER_ID,
+                                  ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                                  (uint8_t*)data,
+                                  ZCL_BITMAP16_ATTRIBUTE_TYPE);
+      
     }
+
+    if (report_message->cmd[9]&0x10)                                            //阈值报警
+    {
+      //对应上报状态对应位置1                                                     
+      emberAfReadServerAttribute(1,                                             //读属性为取之前状态
+                                ZCL_IAS_ZONE_CLUSTER_ID,
+                                ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                                (uint8_t*)data,
+                                8);
+      data[0] |= 0x01;                                                          //ZoneStatus最低位置1 报警
+      ZoneStatus = (((data[0]) & 0x00ff) +(data[1]<<8 & 0xff00));      
+      emberAfCorePrintln("data[0]=%x data[1] %x.",data[0],data[1]);
+      emberAfCorePrintln("cmd[9]=0x10 ZoneStatus is %2x.",ZoneStatus);
+      emberAfWriteServerAttribute(1,
+                                  ZCL_IAS_ZONE_CLUSTER_ID,
+                                  ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                                  (uint8_t*)data,
+                                  ZCL_BITMAP16_ATTRIBUTE_TYPE);
+    }else{                                                                      //取消报警
+      //对应上报状态对应位置0
+      emberAfReadServerAttribute(1,                                             //读属性为取之前状态
+                                ZCL_IAS_ZONE_CLUSTER_ID,
+                                ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                                (uint8_t*)data,
+                                8);
+      data[0] &= 0xFE;                                                          //ZoneStatus最低位置0 取消报警
+      ZoneStatus = (((data[0]) & 0x00ff) +(data[1]<<8 & 0xff00)); 
+      emberAfWriteServerAttribute(1,
+                                  ZCL_IAS_ZONE_CLUSTER_ID,
+                                  ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                                  (uint8_t*)data,
+                                  ZCL_BITMAP16_ATTRIBUTE_TYPE);     
+    }
+
+    if (report_message->cmd[9]&0x40)                                            //低压报警
+    {
+      //对应上报状态对应位置1                                                     
+      emberAfReadServerAttribute(1,                                             //读属性为取之前状态
+                              ZCL_IAS_ZONE_CLUSTER_ID,
+                              ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                              (uint8_t*)data,
+                              8);
+      data[0] |= 0x08;                                                          //ZoneStatus第四位置1 低压报警
+      ZoneStatus = (((data[0]) & 0x00ff) +(data[1]<<8 & 0xff00));
+      emberAfWriteServerAttribute(1,
+                                  ZCL_IAS_ZONE_CLUSTER_ID,
+                                  ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                                  (uint8_t*)data,
+                                  ZCL_BITMAP16_ATTRIBUTE_TYPE);     
+    }else{                                                                      //取消报警
+      //对应上报状态对应位置0
+      emberAfReadServerAttribute(1,                                             //读属性为取之前状态
+                              ZCL_IAS_ZONE_CLUSTER_ID,
+                              ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                              (uint8_t*)data,
+                              8);
+      data[0] &= 0xF7;                                                          //ZoneStatus第四位置0 取消报警
+      ZoneStatus = (((data[0]) & 0x00ff) +(data[1]<<8 & 0xff00));    
+      emberAfWriteServerAttribute(1,
+                                  ZCL_IAS_ZONE_CLUSTER_ID,
+                                  ZCL_ZONE_STATUS_ATTRIBUTE_ID,
+                                  (uint8_t*)data,
+                                  ZCL_BITMAP16_ATTRIBUTE_TYPE);  
+    }
+    emberEventControlSetDelayMS(SentZoneStatusEventControl,0);                  //开始发送命令EVENT
+    //麦乐克的muc协议不存在上报电压的百分比
     if (report_message->cmd[9]&0x04)                                            //有电压信息
     {
       uint8_t voltage;
-      voltage = report_message->cmd[10];                                         //report_message->cmd[10] 数据2
+      voltage = report_message->cmd[10];                                        //report_message->cmd[10] 数据2
       emberAfWriteServerAttribute(1,
                               ZCL_POWER_CONFIG_CLUSTER_ID,
                               ZCL_BATTERY_PERCENTAGE_REMAINING_ATTRIBUTE_ID,
@@ -287,9 +353,52 @@ void ReportMessageToGateway(serial_report_command *report_message)
   }
 */
 
+}
 
+void NetworkSteeringOperation(serial_report_command *report_message)
+{
+  if (report_message->cmd[8]==MotionSensor)
+  {
+
+    if (report_message->cmd[9]==0x02)                                           //按键入网                                   
+    {
+      if(emberAfNetworkState() == EMBER_JOINED_NETWORK) {                       //在网状态
+          emberLeaveNetwork(); //离开网络
+      } 
+
+      emberEventControlSetActive(emberAfKeepConnectEventControl);//开启入网事件
+      emberEventControlSetActive(emberAfLedJoinNetworkStatusEventControl);//入网灯闪烁事件
+
+ 
+    }else{                                                                     
+
+    }
+
+  }
 
 }
 
+void emberAfKeepConnectEventControlHandler(void)
+{
+  
+  emberEventControlSetInactive(emberAfKeepConnectEventControl);
+  if (networkJoinAttempts < REJOIN_ATTEMPTS)                   //重复入网3次
+  {
+      networkJoinAttempts++;
+      emberAfPluginNetworkSteeringStart();
+      emberEventControlSetDelayQS(emberAfKeepConnectEventControl,QS_BETWEEN_JOIN_ATTEMPTS);
+  } else {                                      //大于3次入网失败，关绿灯        
+      networkJoinAttempts =0;
+      halClearLed(0);
+      emberEventControlSetInactive(emberAfLedJoinNetworkStatusEventControl);
+  }
 
+}
 
+void emberAfLedJoinNetworkStatusEventHandler(void)
+{
+  emberEventControlSetInactive(emberAfLedJoinNetworkStatusEventControl);
+  halToggleLed(0);
+  emberEventControlSetDelayMS(emberAfLedJoinNetworkStatusEventControl,500);
+
+}

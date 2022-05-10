@@ -22,7 +22,10 @@
 #define GPIO_OUT_PORT       gpioPortD                                           //唤醒输出
 #define GPIO_OUT_PIN        (4U)
 
-
+//入网配网相关定义。
+#define SECONDS_BETWEEN_JOIN_ATTEMPTS 20
+#define QS_BETWEEN_JOIN_ATTEMPTS      (SECONDS_BETWEEN_JOIN_ATTEMPTS * 4)
+#define REJOIN_ATTEMPTS  3                         //重复入网次数
 
 
 
@@ -47,13 +50,16 @@ uint8_t MultiIRDataReportProcessFunction(serial_report_command *report_mcu,seria
 void ReportMessgeToMCU(serial_report_command *report_mcu);
 void WakeUpMessageToMCU(void);
 void ReportMessageToGateway(serial_report_command *report_message);
-
+void NetworkSteeringOperation(serial_report_command *report_message);
 
 EmberEventControl StartLowLevelEventControl;
 EmberEventControl StopLowLevelEventControl;
 EmberEventControl ReportMessgeToMCUEventControl;
 EmberEventControl SentZoneStatusEventControl;
+EmberEventControl emberAfKeepConnectEventControl;
+EmberEventControl emberAfLedJoinNetworkStatusEventControl;
 
-uint16_t ZoneStatus;
+extern uint16_t ZoneStatus;
+extern uint8_t networkJoinAttempts;
 
 #endif

@@ -16,6 +16,8 @@
   extern EmberEventControl SentZoneStatusEventControl; \
   extern EmberEventControl StartLowLevelEventControl; \
   extern EmberEventControl StopLowLevelEventControl; \
+  extern EmberEventControl emberAfKeepConnectEventControl; \
+  extern EmberEventControl emberAfLedJoinNetworkStatusEventControl; \
   extern EmberEventControl emberAfPluginGpioSensorDebounceEventControl; \
   extern EmberEventControl emberAfPluginGpioSensorInterruptEventControl; \
   extern EmberEventControl emberAfPluginIasZoneServerManageQueueEventControl; \
@@ -27,6 +29,8 @@
   extern void SentZoneStatusEventHandler(void); \
   extern void StartLowLevelEventHandler(void); \
   extern void StopLowLevelEventHandler(void); \
+  extern void emberAfKeepConnectEventControlHandler(void); \
+  extern void emberAfLedJoinNetworkStatusEventHandler(void); \
   extern void emberAfPluginGpioSensorDebounceEventHandler(void); \
   extern void emberAfPluginGpioSensorInterruptEventHandler(void); \
   extern void emberAfPluginIasZoneServerManageQueueEventHandler(void); \
@@ -72,6 +76,8 @@
   { &SentZoneStatusEventControl, SentZoneStatusEventHandler }, \
   { &StartLowLevelEventControl, StartLowLevelEventHandler }, \
   { &StopLowLevelEventControl, StopLowLevelEventHandler }, \
+  { &emberAfKeepConnectEventControl, emberAfKeepConnectEventControlHandler }, \
+  { &emberAfLedJoinNetworkStatusEventControl, emberAfLedJoinNetworkStatusEventHandler }, \
   { &emberAfPluginGpioSensorDebounceEventControl, emberAfPluginGpioSensorDebounceEventHandler }, \
   { &emberAfPluginGpioSensorInterruptEventControl, emberAfPluginGpioSensorInterruptEventHandler }, \
   { &emberAfPluginIasZoneServerManageQueueEventControl, emberAfPluginIasZoneServerManageQueueEventHandler }, \
@@ -92,6 +98,8 @@
   "Sent zone status event control",  \
   "Start low level event control",  \
   "Stop low level event control",  \
+  "Ember af keep connect event control",  \
+  "Ember af led join network status event control",  \
   "GPIO Sensor Interface Plugin Debounce",  \
   "GPIO Sensor Interface Plugin Interrupt",  \
   "IAS Zone Server Plugin ManageQueue",  \
